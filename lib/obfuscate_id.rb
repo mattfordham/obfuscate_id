@@ -61,8 +61,8 @@ module ObfuscateId
     def reload(options = nil)
       options = (options || {}).merge(no_obfuscated_id: true)
 
-      clear_aggregation_cache
-      clear_association_cache
+      self.send :clear_association_cache
+      self.send :clear_aggregation_cache if self.respond_to?(:clear_aggregation_cache, true)
 
       fresh_object =
         if options && options[:lock]
